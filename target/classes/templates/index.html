@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HostelEats — Campus Canteen & Meal Pre-Order Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- Top Banner for live feedback/reloading -->
+  <div id="reloading-banner" class="banner hidden">
+    <span>⚡ Applying your changes...</span>
+  </div>
+
+  <div class="app-container">
+    <!-- Topbar Header -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="brand">
+          <div class="brand-badge">H</div>
+          <div class="brand-text">
+            <span class="brand-title">hostel<span class="brand-accent">eats</span></span>
+            <span class="brand-sub">CAMPUS CANTEEN</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="status-indicator">
+          <span class="pulse-dot"></span>
+          <span class="status-text">Canteen Live · Closes 9:00 PM</span>
+        </div>
+        <div id="reload-chip" class="chip">Last reload: —</div>
+        <div id="account-chip" class="chip account-chip">
+          <span class="user-avatar">👤</span>
+          <span id="account-name">Guest</span>
+          <span id="account-role-badge" class="role-badge">Student</span>
+        </div>
+        <div id="session-timer-chip" class="chip session-timer-chip" style="display: none;" title="Session Timer">
+          <span class="timer-icon">⏳</span>
+          <span id="session-timer-label">Session: </span>
+          <strong id="session-timer-text">--</strong>
+        </div>
+        <button id="login-open" class="btn btn-secondary btn-sm">Sign in</button>
+      </div>
+    </header>
+
+    <!-- Welcome Hero Section -->
+    <section class="welcome-card">
+      <div class="hero-left">
+        <div class="hero-badge">
+          <span class="pulse-emerald"></span> LIVE CANTEEN SERVICE · FAST PICKUP
+        </div>
+        <h1 class="hero-title">Good food. <br><span class="gradient-text">Zero wait time.</span></h1>
+        <p class="hero-desc">
+          Pre-order authentic hot meals, optimize your budget combos, and beat hostel rush hours with real-time pickup slots and shortest-path campus routing.
+        </p>
+        <div class="hero-actions">
+          <button id="hero-menu-btn" class="btn btn-primary">Explore Today’s Menu →</button>
+          <button id="hero-combo-btn" class="btn btn-glass">Build Meal Combo ✨</button>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-art-card">
+          <div class="art-plate">🥞</div>
+          <div class="badge-float badge-float-top">
+            <span>⏱️ 4–6 Mins Avg. Prep Time</span>
+          </div>
+          <div class="badge-float badge-float-bottom">
+            <span>⭐️ 4.9 / 5.0 Student Rating</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feature Strip -->
+    <div class="feature-strip">
+      <div class="feature-item">
+        <span class="feature-icon">🌿</span>
+        <div>
+          <strong>Made Fresh Daily</strong>
+          <p>Hygienic campus kitchen</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">⚡</span>
+        <div>
+          <strong>Skip the Long Queue</strong>
+          <p>Instant digital token</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🏷️</span>
+        <div>
+          <strong>Student-Friendly Pricing</strong>
+          <p>Meals starting at ₹15</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🚶</span>
+        <div>
+          <strong>Campus Walk Navigation Ready</strong>
+          <p>Optimized paths & minutes</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section Heading & Tabs -->
+    <div class="tabs-header">
+      <div class="tabs-title-group">
+        <h2 class="tabs-title">YOUR CAMPUS · YOUR CANTEEN</h2>
+        <p class="tabs-subtitle">What would you like today?</p>
+      </div>
+      <div class="live-kitchen-badge">
+        <span class="pulse-dot-amber"></span> Kitchen Service Active
+      </div>
+    </div>
+
+    <!-- Tab Buttons Navigation -->
+    <nav class="tabs-nav">
+      <button class="tab-btn active" data-tab="panel-menu">
+        <span class="tab-icon">🍽️</span> Menu & Order
+      </button>
+      <button class="tab-btn" data-tab="panel-combo">
+        <span class="tab-icon">✨</span> Combo Builder
+      </button>
+      <button class="tab-btn" data-tab="panel-slots">
+        <span class="tab-icon">📅</span> Pickup Slots
+      </button>
+      <button class="tab-btn" data-tab="panel-orders">
+        <span class="tab-icon">📋</span> My Orders
+      </button>
+      <button class="tab-btn" data-tab="panel-rush">
+        <span class="tab-icon">📊</span> Rush Hour
+      </button>
+      <button class="tab-btn" data-tab="panel-walk">
+        <span class="tab-icon">🚶</span> Campus Walk
+      </button>
+      <button id="kitchen-tab-btn" class="tab-btn staff-tab hidden" data-tab="panel-kitchen">
+        <span class="tab-icon">👨‍🍳</span> Kitchen Console
+      </button>
+    </nav>
+
+    <!-- TAB PANELS -->
+    <main class="panels-container">
+
+      <!-- Panel 1: Menu & Order -->
+      <section id="panel-menu" class="panel-tab active">
+        <!-- Rate Limiter Status Banner -->
+        <div id="limiter-status" class="alert-banner">
+          <div class="limiter-icon">🛡️</div>
+          <div class="limiter-text">
+            <strong>Sliding-Window Rate Limiter:</strong>
+            <span id="limiter-info">0 / 3 orders used in the current 30-second window.</span>
+          </div>
+          <div class="limiter-gauge">
+            <div id="limiter-bar" class="gauge-fill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <div class="menu-layout">
+          <!-- Main Menu List -->
+          <div class="menu-main">
+            <!-- Filter Pills -->
+            <div class="category-filters" id="category-filters">
+              <!-- Dynamically populated or static baseline -->
+              <button class="cat-pill active" data-cat="All Items">All Items</button>
+              <button class="cat-pill" data-cat="South Indian">South Indian</button>
+              <button class="cat-pill" data-cat="Snacks">Snacks</button>
+              <button class="cat-pill" data-cat="Drinks">Drinks</button>
+              <button class="cat-pill" data-cat="Fresh">Fresh</button>
+              <button class="cat-pill" data-cat="Wraps">Wraps</button>
+              <button class="cat-pill" data-cat="Meals">Meals</button>
+            </div>
+
+            <!-- Menu Grid -->
+            <div id="menu-grid" class="menu-grid">
+              <!-- Rendered via app.js -->
+            </div>
+          </div>
+
+          <!-- Tray Sidebar (Sticky) -->
+          <aside class="tray-sidebar">
+            <div class="tray-card">
+              <div class="tray-header">
+                <h3>🛒 My Lunch Tray</h3>
+                <span id="tray-count" class="badge-count">0 items</span>
+              </div>
+              <div id="tray-items" class="tray-items-list">
+                <div class="tray-empty">Your tray is empty. Tap "+ Add to Tray" to get started!</div>
+              </div>
+              <div class="tray-footer">
+                <div class="tray-pickup">
+                  <label for="pickup-time-select">Guaranteed Pickup Window:</label>
+                  <select id="pickup-time-select" class="form-select">
+                    <option value="12:30 PM">12:30 PM (Quick Pickup)</option>
+                    <option value="01:00 PM">01:00 PM</option>
+                    <option value="01:30 PM">01:30 PM</option>
+                    <option value="02:00 PM">02:00 PM</option>
+                    <option value="04:30 PM">04:30 PM (Snacks & Tea)</option>
+                    <option value="06:00 PM">06:00 PM</option>
+                    <option value="07:30 PM">07:30 PM (Dinner Rush)</option>
+                  </select>
+                </div>
+                <div class="tray-total-row">
+                  <span>Grand Total</span>
+                  <span id="tray-total-price" class="tray-price">₹0</span>
+                </div>
+                <button id="place-order-btn" class="btn btn-primary btn-block" disabled>
+                  Place Order Now
+                </button>
+                <p id="order-msg" class="form-feedback hidden"></p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Panel 2: Smart Meal Combo Builder -->
+      <section id="panel-combo" class="panel-tab">
+        <div class="card combo-card">
+          <div class="card-header">
+            <div>
+              <h3>✨ Smart Meal Combo Builder</h3>
+              <p>Knapsack-optimized nutrition & taste algorithm to maximize satisfaction within your budget.</p>
+            </div>
+          </div>
+          <div class="combo-controls">
+            <div class="budget-selector">
+              <label>Select Budget (₹):</label>
+              <div class="budget-presets">
+                <button class="btn btn-sm btn-outline budget-preset-btn" data-val="30">₹30</button>
+                <button class="btn btn-sm btn-outline budget-preset-btn" data-val="50">₹50</button>
+                <button class="btn btn-sm btn-outline budget-preset-btn active" data-val="60">₹60</button>
+                <button class="btn btn-sm btn-outline budget-preset-btn" data-val="80">₹80</button>
+                <button class="btn btn-sm btn-outline budget-preset-btn" data-val="100">₹100</button>
+              </div>
+            </div>
+            <div class="budget-slider-row">
+              <input type="range" id="combo-budget-slider" min="15" max="150" value="60" step="5" class="slider" />
+              <span id="combo-budget-val" class="budget-val-display">₹60</span>
+              <button id="combo-recommend-btn" class="btn btn-primary">Find Best Combo ✨</button>
+            </div>
+          </div>
+
+          <!-- Combo Results Area -->
+          <div id="combo-results" class="combo-results-view">
+            <!-- Rendered dynamically -->
+            <div class="placeholder-state">Select budget and click "Find Best Combo" to run optimization.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 3: Pickup Slot Scheduling -->
+      <section id="panel-slots" class="panel-tab">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>📅 Canteen Pickup Slot Timeline</h3>
+              <p>Book busy-free kitchen collection slots between 8:00 AM (480m) and 9:00 PM (1260m).</p>
+            </div>
+            <button id="refresh-slots-btn" class="btn btn-sm btn-secondary">🔄 Refresh Slots</button>
+          </div>
+
+          <!-- Timeline Visualizer -->
+          <div class="timeline-wrapper">
+            <div class="timeline-legend">
+              <span class="legend-item"><span class="legend-dot busy-dot"></span> Reserved / Busy Block</span>
+              <span class="legend-item"><span class="legend-dot free-dot"></span> Open Free Slot</span>
+            </div>
+            <div class="timeline-bar" id="timeline-bar">
+              <!-- Colored segments rendered by JS -->
+            </div>
+            <div class="timeline-hours">
+              <span>8 AM</span><span>10 AM</span><span>12 PM</span><span>2 PM</span><span>4 PM</span><span>6 PM</span><span>8 PM</span><span>9 PM</span>
+            </div>
+          </div>
+
+          <!-- Reservation Form -->
+          <div class="slot-reserve-box">
+            <h4>Reserve Custom Collection Slot</h4>
+            <div class="slot-form-grid">
+              <div class="form-group">
+                <label for="slot-start-time">Start Time:</label>
+                <select id="slot-start-time" class="form-select">
+                  <!-- Dynamically populated or common hours -->
+                  <option value="600">10:00 AM (600m)</option>
+                  <option value="660">11:00 AM (660m)</option>
+                  <option value="720">12:00 PM (720m)</option>
+                  <option value="750">12:30 PM (750m)</option>
+                  <option value="780">01:00 PM (780m)</option>
+                  <option value="840">02:00 PM (840m)</option>
+                  <option value="960">04:00 PM (960m)</option>
+                  <option value="1080">06:00 PM (1080m)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="slot-duration">Duration:</label>
+                <select id="slot-duration" class="form-select">
+                  <option value="15">15 Minutes</option>
+                  <option value="30" selected>30 Minutes</option>
+                  <option value="45">45 Minutes</option>
+                  <option value="60">60 Minutes</option>
+                </select>
+              </div>
+              <div class="form-group submit-group">
+                <button id="reserve-slot-btn" class="btn btn-primary">Reserve Slot 📌</button>
+              </div>
+            </div>
+            <div id="slot-feedback" class="form-feedback hidden"></div>
+          </div>
+
+          <!-- Existing Merged Intervals display -->
+          <div class="merged-slots-list">
+            <h4>Current Active Reserved Windows:</h4>
+            <div id="merged-intervals-chips" class="chip-container">
+              <!-- Rendered intervals -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 4: My Orders & Live Tracking -->
+      <section id="panel-orders" class="panel-tab">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>📋 Active Orders & Live Pickup Tracker</h3>
+              <p>Track token progress through kitchen preparation in real time.</p>
+            </div>
+            <button id="refresh-orders-btn" class="btn btn-sm btn-secondary">🔄 Refresh Status</button>
+          </div>
+          <div id="orders-container" class="orders-list">
+            <!-- Dynamic order cards -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 5: Rush Hour Traffic Analytics -->
+      <section id="panel-rush" class="panel-tab">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>📊 Campus Canteen Rush Hour Analytics</h3>
+              <p>Rolling-window traffic density analysis from 8 AM to 7 PM.</p>
+            </div>
+            <div class="window-selector">
+              <label for="rush-window-select">Rolling Window:</label>
+              <select id="rush-window-select" class="form-select form-select-sm">
+                <option value="1">1-Hour Window</option>
+                <option value="2" selected>2-Hour Window</option>
+                <option value="3">3-Hour Window</option>
+                <option value="4">4-Hour Window</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Peak Alert Callout Card -->
+          <div id="peak-callout" class="callout-card">
+            <div class="callout-icon">🔥</div>
+            <div class="callout-body">
+              <h4 id="peak-window-name">Peak Window: Loading...</h4>
+              <p id="peak-window-desc">Cumulative volume: calculating...</p>
+            </div>
+          </div>
+
+          <!-- Hourly Traffic Chart -->
+          <div class="chart-container">
+            <div id="chart-bars" class="chart-bars">
+              <!-- Bars injected dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 6: Campus Walk Navigation -->
+      <section id="panel-walk" class="panel-tab">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>🚶 Campus Walk Dijkstra Navigation</h3>
+              <p>Find the shortest walking path and estimated transit minutes to the Canteen.</p>
+            </div>
+          </div>
+
+          <div class="walk-form-grid">
+            <div class="form-group">
+              <label for="walk-source">Starting Location:</label>
+              <select id="walk-source" class="form-select">
+                <option value="Hostel A" selected>Hostel A</option>
+                <option value="Hostel B">Hostel B</option>
+                <option value="Hostel C">Hostel C</option>
+                <option value="Library">Library</option>
+                <option value="Quad">Quad</option>
+                <option value="Gym">Gym</option>
+                <option value="Auditorium">Auditorium</option>
+                <option value="Sports Ground">Sports Ground</option>
+                <option value="Science Block">Science Block</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="walk-target">Destination:</label>
+              <select id="walk-target" class="form-select">
+                <option value="Canteen" selected>Canteen</option>
+                <option value="Hostel A">Hostel A</option>
+                <option value="Hostel B">Hostel B</option>
+                <option value="Hostel C">Hostel C</option>
+                <option value="Library">Library</option>
+                <option value="Quad">Quad</option>
+                <option value="Gym">Gym</option>
+                <option value="Auditorium">Auditorium</option>
+                <option value="Sports Ground">Sports Ground</option>
+                <option value="Science Block">Science Block</option>
+              </select>
+            </div>
+            <div class="form-group submit-group">
+              <button id="calc-route-btn" class="btn btn-primary">Find Shortest Route 🗺️</button>
+            </div>
+          </div>
+
+          <!-- Route Results -->
+          <div id="route-result" class="route-result-card hidden">
+            <div class="route-time-pill">
+              <span id="route-minutes">--</span> mins total walking time
+            </div>
+            <div class="route-breadcrumbs" id="route-path-container">
+              <!-- Breadcrumbs rendered here -->
+            </div>
+          </div>
+
+          <!-- Campus Map Nodes Visualization -->
+          <div class="campus-nodes-schematic">
+            <h4>Campus Schematic Graph:</h4>
+            <div class="nodes-grid" id="nodes-grid">
+              <div class="node-badge" data-node="Hostel A">Hostel A</div>
+              <div class="node-badge" data-node="Hostel B">Hostel B</div>
+              <div class="node-badge" data-node="Hostel C">Hostel C</div>
+              <div class="node-badge" data-node="Library">Library</div>
+              <div class="node-badge" data-node="Quad">Quad</div>
+              <div class="node-badge" data-node="Gym">Gym</div>
+              <div class="node-badge" data-node="Canteen">🍽️ Canteen</div>
+              <div class="node-badge" data-node="Science Block">Science Block</div>
+              <div class="node-badge" data-node="Auditorium">Auditorium</div>
+              <div class="node-badge" data-node="Sports Ground">Sports Ground</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel 7: Staff Kitchen Console -->
+      <section id="panel-kitchen" class="panel-tab">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>👨‍🍳 Kitchen Kanban Dispatch Console</h3>
+              <p>Staff operational dashboard for real-time kitchen token dispatching.</p>
+            </div>
+            <button id="refresh-kitchen-btn" class="btn btn-sm btn-secondary">🔄 Refresh Kanban</button>
+          </div>
+
+          <div class="kanban-grid">
+            <div class="kanban-column" id="col-queued">
+              <div class="kanban-col-header">
+                <h4>Queued</h4>
+                <span class="badge-count" id="count-queued">0</span>
+              </div>
+              <div class="kanban-cards" id="cards-queued"></div>
+            </div>
+            <div class="kanban-column" id="col-preparing">
+              <div class="kanban-col-header">
+                <h4>Preparing</h4>
+                <span class="badge-count" id="count-preparing">0</span>
+              </div>
+              <div class="kanban-cards" id="cards-preparing"></div>
+            </div>
+            <div class="kanban-column" id="col-ready">
+              <div class="kanban-col-header">
+                <h4>Ready for Pickup</h4>
+                <span class="badge-count" id="count-ready">0</span>
+              </div>
+              <div class="kanban-cards" id="cards-ready"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <span>HostelEats Challenge Platform · Campus Meal Pre-Order System</span>
+        <button id="admin-reset-btn" class="btn btn-sm btn-glass">⚙️ Reset Challenge Data Store</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Authentication Modal -->
+  <div id="login-modal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Sign In to HostelEats</h3>
+        <button id="login-close" class="modal-close">&times;</button>
+      </div>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" class="form-input" placeholder="e.g. aarav or canteen" required />
+        </div>
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" class="form-input" placeholder="Enter password" required />
+        </div>
+
+        <div class="quick-credentials">
+          <p>Quick Demo Credentials:</p>
+          <div class="quick-creds-btns">
+            <button type="button" class="btn btn-xs btn-outline" id="demo-student-btn">
+              Student: aarav / hostel123
+            </button>
+            <button type="button" class="btn btn-xs btn-outline" id="demo-staff-btn">
+              Staff: canteen / kitchen123
+            </button>
+          </div>
+        </div>
+
+        <div id="login-error" class="form-feedback error hidden"></div>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>

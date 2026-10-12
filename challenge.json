@@ -1,0 +1,44 @@
+{
+  "name": "HostelEats Challenge",
+  "slug": "hosteleats-java-challenge",
+  "stack": "Java 17 / Spring Boot 3 / Maven",
+  "description": "HostelEats Campus Canteen & Meal Pre-Order Platform debugging challenge containing 6 algorithmic and state synchronization bugs.",
+  "bugs": [
+    {
+      "id": 1,
+      "name": "Session Never Expires (TTL Unit Mismatch)",
+      "file": "src/main/java/com/hosteleats/service/AuthService.java",
+      "test": "testSessionExpiresAtConfiguredTime"
+    },
+    {
+      "id": 2,
+      "name": "Rate Limiter Traps Users in Lockout Window",
+      "file": "src/main/java/com/hosteleats/service/RateLimiterService.java",
+      "test": "testRejectedRequestDoesNotExtendLimitWindow"
+    },
+    {
+      "id": 3,
+      "name": "Rush Hour Analytics Omits Final Peak Window",
+      "file": "src/main/java/com/hosteleats/service/AnalyticsService.java",
+      "test": "testPeakWindowIncludesFinalValidStart"
+    },
+    {
+      "id": 4,
+      "name": "Campus Walk Suboptimal Path Calculation",
+      "file": "src/main/java/com/hosteleats/service/CampusService.java",
+      "test": "testRouteDistanceIncludesFullPath"
+    },
+    {
+      "id": 5,
+      "name": "Combo Builder Unbounded Duplicate Items",
+      "file": "src/main/java/com/hosteleats/service/ComboService.java",
+      "test": "testComboUsesEachMenuItemOnce"
+    },
+    {
+      "id": 6,
+      "name": "Overlapping Pickup Slot Shrinkage",
+      "file": "src/main/java/com/hosteleats/service/SlotService.java",
+      "test": "testOverlappingSlotsMergeToFurthestEnd"
+    }
+  ]
+}
