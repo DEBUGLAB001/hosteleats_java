@@ -2,10 +2,8 @@
 set -e
 cd "$(dirname "$0")"
 
-# Initial build
 mvn -q -DskipTests package 1>&2
 
-# Launch server in background
 java -jar target/*.jar &
 PID=$!
 
