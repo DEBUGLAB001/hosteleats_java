@@ -6,7 +6,7 @@ cd "$(dirname "$0")"
 mvn -q -DskipTests package 1>&2
 
 # Launch server in background
-java -jar target/app.jar &
+java -jar target/*.jar &
 PID=$!
 
 trap 'kill -TERM "$PID" 2>/dev/null; exit 0' SIGTERM SIGINT EXIT
@@ -20,13 +20,13 @@ while true; do
     sleep 2
     CUR_SNAP=$(get_snap)
     if [ "$CUR_SNAP" != "$LAST_SNAP" ]; then
-        echo "[Engine] Recompiling updated Java files..." 1>&2
-        if mvn -q package -DskipTests 1>&2; then
+        echo "[Engine] Recompiling updated Java files..."
+        if mvn -q package -DskipTests; then
             kill -TERM "$PID" 2>/dev/null || true
             wait "$PID" 2>/dev/null || true
-            java -jar target/app.jar &
+            java -jar target/*.jar &
             PID=$!
-            echo "[Engine] App reloaded successfully." 1>&2
+            echo "[Engine] App reloaded successfully."
         fi
         LAST_SNAP=$(get_snap)
     fi
