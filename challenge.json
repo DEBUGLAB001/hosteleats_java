@@ -1,8 +1,16 @@
 {
+  "challenge_id": "hosteleats-java-challenge",
   "name": "HostelEats Challenge",
   "slug": "hosteleats-java-challenge",
   "stack": "Java 17 / Spring Boot 3 / Maven",
   "description": "HostelEats Campus Canteen & Meal Pre-Order Platform debugging challenge containing 6 algorithmic and state synchronization bugs.",
+  "runtime_config": {
+    "runtime_type": "java-spring",
+    "install_command": "mvn package -DskipTests -B",
+    "start_command": "./start.sh",
+    "test_command": "./tests/run_tests.sh",
+    "ports": [{ "container_port": 3000, "type": "preview" }]
+  },
   "bugs": [
     {
       "id": 1,
@@ -42,3 +50,4 @@
     }
   ]
 }
+

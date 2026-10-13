@@ -1,14 +1,17 @@
 com\hosteleats\config\WebConfig.class
 com\hosteleats\model\Account.class
 com\hosteleats\service\ComboService.class
+com\hosteleats\TestRunner$TestCase.class
 com\hosteleats\model\MenuItem.class
 com\hosteleats\service\CampusService.class
 com\hosteleats\service\SlotService.class
+com\hosteleats\TestRunner$TestResult.class
 com\hosteleats\model\Order.class
 com\hosteleats\controller\ApiController.class
 com\hosteleats\service\AnalyticsService.class
 com\hosteleats\service\DataStore.class
 com\hosteleats\model\SessionPayload.class
+com\hosteleats\TestRunner.class
 com\hosteleats\service\RateLimiterService.class
 com\hosteleats\controller\PageController.class
 com\hosteleats\service\AuthService.class
