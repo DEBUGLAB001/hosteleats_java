@@ -35,8 +35,6 @@ public class ComboService {
             selected.add(new ArrayList<>());
         }
 
-        // BUG 5 INJECTION:
-        // Forward iteration makes it an Unbounded Knapsack (allowing duplicates)
         for (MenuItem item : items) {
             int price = item.getPrice();
             int satisfaction = item.getSatisfaction();

@@ -22,9 +22,6 @@ public class AnalyticsService {
         int maxOrders = -1;
         int bestStart = 0;
 
-        // BUG 3 INJECTION:
-        // Off-by-one boundary: start < counts.size() - windowSize
-        // Omits the final valid rolling window!
         for (int start = 0; start < counts.size() - windowSize; start++) {
             int currentSum = 0;
             for (int i = 0; i < windowSize; i++) {

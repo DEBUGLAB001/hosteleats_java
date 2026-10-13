@@ -42,40 +42,30 @@ public class CampusService {
     }
 
     private void initCampusGraph() {
-        // Hostel A <-> Library: 5, Quad: 10, Hostel B: 7
         addEdge("Hostel A", "Library", 5);
         addEdge("Hostel A", "Quad", 10);
         addEdge("Hostel A", "Hostel B", 7);
 
-        // Hostel B <-> Library: 2, Gym: 4, Hostel A: 7
         addEdge("Hostel B", "Library", 2);
         addEdge("Hostel B", "Gym", 4);
 
-        // Hostel C <-> Gym: 4, Canteen: 8
         addEdge("Hostel C", "Gym", 4);
         addEdge("Hostel C", "Canteen", 8);
 
-        // Library <-> Quad: 2, Canteen: 12, Science Block: 3, Hostel A: 5, Hostel B: 2
         addEdge("Library", "Quad", 2);
         addEdge("Library", "Canteen", 12);
         addEdge("Library", "Science Block", 3);
 
-        // Quad <-> Gym: 6, Canteen: 4, Hostel A: 10, Library: 2
         addEdge("Quad", "Gym", 6);
         addEdge("Quad", "Canteen", 4);
 
-        // Gym <-> Canteen: 3, Hostel C: 4, Hostel B: 4, Quad: 6
         addEdge("Gym", "Canteen", 3);
 
-        // Auditorium <-> Quad: 3, Sports Ground: 5, Science Block: 6
         addEdge("Auditorium", "Quad", 3);
         addEdge("Auditorium", "Sports Ground", 5);
         addEdge("Auditorium", "Science Block", 6);
 
-        // Sports Ground <-> Auditorium: 5, Gym: 4
         addEdge("Sports Ground", "Gym", 4);
-
-        // Science Block <-> Library: 3, Auditorium: 6
     }
 
     public Map<String, Object> findShortestPath(String source, String target) {
@@ -115,9 +105,6 @@ public class CampusService {
                 String neighbor = entry.getKey();
                 int weight = entry.getValue();
 
-                // BUG 4 INJECTION:
-                // Compares raw edge weight instead of cumulative distance (distance + weight)
-                // distances.put(neighbor, weight) instead of dist + weight
                 if (weight < distances.get(neighbor)) {
                     distances.put(neighbor, weight);
                     previous.put(neighbor, node);

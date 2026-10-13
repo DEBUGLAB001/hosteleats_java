@@ -25,9 +25,6 @@ public class SlotService {
             if (merged.isEmpty() || interval[0] > merged.get(merged.size() - 1)[1]) {
                 merged.add(new int[]{interval[0], interval[1]});
             } else {
-                // BUG 6 INJECTION:
-                // Unconditionally overwrites end with interval[1] rather than Math.max(merged.get(merged.size() - 1)[1], interval[1])
-                // Causes merged interval to shrink when a shorter interval ends earlier!
                 merged.get(merged.size() - 1)[1] = interval[1];
             }
         }
@@ -41,7 +38,6 @@ public class SlotService {
         }
         List<int[]> merged = mergeIntervals(dataStore.getBookedSlots());
         for (int[] interval : merged) {
-            // Overlaps if start < interval[1] && end > interval[0]
             if (start < interval[1] && end > interval[0]) {
                 return false;
             }

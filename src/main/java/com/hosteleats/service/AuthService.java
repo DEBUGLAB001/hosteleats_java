@@ -30,9 +30,6 @@ public class AuthService {
 
         String token = "token_" + UUID.randomUUID().toString().replace("-", "");
 
-        // BUG 1 INJECTION:
-        // When creating token payload, store expires_at = clock.nowMillis() + (TOKEN_TTL_SECONDS * 1000)
-        // Milliseconds stored: ~ 1.7e12
         double expiresAt = clock.nowMillis() + (TOKEN_TTL_SECONDS * 1000.0);
 
         sessions.put(token, new SessionPayload(account.getUsername(), account.getRole(), account.getName(), expiresAt));
@@ -50,9 +47,6 @@ public class AuthService {
             return null;
         }
 
-        // BUG 1 INJECTION:
-        // Compares clock.nowSeconds() (~1.7e9) with session.getExpiresAt() (~1.7e12)
-        // nowSeconds() > expiresAt will remain false for hundreds of years!
         if (clock.nowSeconds() > session.getExpiresAt()) {
             sessions.remove(token);
             return null;

@@ -25,9 +25,6 @@ public class RateLimiterService {
         List<Double> times = orderTimes.getOrDefault(userId, new ArrayList<>());
         times = times.stream().filter(t -> now - t < WINDOW_SECONDS).collect(Collectors.toList());
 
-        // BUG 2 INJECTION:
-        // timestamp added BEFORE checking limit!
-        // Rejected requests extend the lockout window forever
         times.add(now);
         orderTimes.put(userId, times);
 
