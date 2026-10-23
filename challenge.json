@@ -11,5 +11,13 @@
         "type": "preview"
       }
     ]
-  }
+  },
+  "bug_topics": [
+    "Session Expiration",
+    "Rate Limiting",
+    "Sliding Window",
+    "Dijkstra's Algorithm",
+    "0/1 Knapsack",
+    "Interval Merging"
+  ]
 }
